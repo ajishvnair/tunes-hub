@@ -17,27 +17,27 @@ const selectHomeContainerDomain = state => state.homeContainer || initialState;
  */
 
 export const selectHomeContainer = () =>
-  createSelector(
-    selectHomeContainerDomain,
-    substate => substate
-  );
+    createSelector(
+        selectHomeContainerDomain,
+        substate => substate
+    );
 
 export const selectReposData = () =>
-  createSelector(
-    selectHomeContainerDomain,
-    substate => get(substate, 'reposData', null)
-  );
+    createSelector(
+        selectHomeContainerDomain,
+        substate => get(substate, 'reposData', null)
+    );
 
 export const selectReposError = () =>
-  createSelector(
-    selectHomeContainerDomain,
-    substate => get(substate, 'reposError', null)
-  );
+    createSelector(
+        selectHomeContainerDomain,
+        substate => get(substate, 'reposError', null)
+    );
 
 export const selectRepoName = () =>
-  createSelector(
-    selectHomeContainerDomain,
-    substate => get(substate, 'repoName', null)
-  );
+    createSelector(
+        selectHomeContainerDomain,
+        substate => get(substate, 'repoName', null)
+    );
 
 export default selectHomeContainer;

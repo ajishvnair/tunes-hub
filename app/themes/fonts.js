@@ -3,99 +3,99 @@ import media from '@app/themes/media';
 
 // sizes
 const dynamicFontSize = (font, desktopDelta = 0, tabletDelta = 0) => css`
-  ${font()}
-  ${media.tablet.min(
-    `font-size: ${tabletDelta +
-      parseInt(
-        font()[0]
-          .replace('font-size:', '')
-          .replace('rem;', '')
-          .replace(/\s+/g, '')
-      )}rem;`
-  )};
-  ${media.desktop.min(
-    `font-size: ${desktopDelta +
-      parseInt(
-        font()[0]
-          .replace('font-size:', '')
-          .replace('rem;', '')
-          .replace(/\s+/g, '')
-      )}rem;`
-  )};
+    ${font()}
+    ${media.tablet.min(
+        `font-size: ${tabletDelta +
+            parseInt(
+                font()[0]
+                    .replace('font-size:', '')
+                    .replace('rem;', '')
+                    .replace(/\s+/g, '')
+            )}rem;`
+    )};
+    ${media.desktop.min(
+        `font-size: ${desktopDelta +
+            parseInt(
+                font()[0]
+                    .replace('font-size:', '')
+                    .replace('rem;', '')
+                    .replace(/\s+/g, '')
+            )}rem;`
+    )};
 `;
 
 const regular = () => css`
-  font-size: 1rem;
+    font-size: 1rem;
 `;
 
 const xRegular = () => css`
-  font-size: 1.125rem;
+    font-size: 1.125rem;
 `;
 const small = () => css`
-  font-size: 0.875rem;
+    font-size: 0.875rem;
 `;
 const big = () => css`
-  font-size: 1.25rem;
+    font-size: 1.25rem;
 `;
 const large = () => css`
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 `;
 const extraLarge = () => css`
-  font-size: 2rem;
+    font-size: 2rem;
 `;
 
 // weights
 const light = () => css`
-  font-weight: light;
+    font-weight: light;
 `;
 const bold = () => css`
-  font-weight: bold;
+    font-weight: bold;
 `;
 
 const normal = () => css`
-  font-weight: normal;
+    font-weight: normal;
 `;
 
 // styles
 const heading = () => css`
-  ${large()}
-  ${bold()}
+    ${large()}
+    ${bold()}
 `;
 
 const subheading = () => css`
-  ${big()}
-  ${bold()}
+    ${big()}
+    ${bold()}
 `;
 
 const standard = () => css`
-  ${regular()}
-  ${normal()}
+    ${regular()}
+    ${normal()}
 `;
 
 const subText = () => css`
-  ${small()}
-  ${normal()}
+    ${small()}
+    ${normal()}
 `;
 
 export default {
-  dynamicFontSize,
-  size: {
-    regular,
-    small,
-    big,
-    large,
-    extraLarge,
-    xRegular
-  },
-  style: {
-    heading,
-    subheading,
-    standard,
-    subText
-  },
-  weights: {
-    light,
-    bold,
-    normal
-  }
+    dynamicFontSize,
+    size: {
+        regular,
+        small,
+        big,
+        large,
+        extraLarge,
+        xRegular
+    },
+    style: {
+        heading,
+        subheading,
+        standard,
+        subText
+    },
+    weights: {
+        light,
+        bold,
+        normal
+    }
 };

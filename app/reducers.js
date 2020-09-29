@@ -13,11 +13,11 @@ import homeContainerReducer from 'containers/HomeContainer/reducer';
  * Merges the main reducer with the router state and dynamically injected reducers
  */
 export default function createReducer() {
-  const rootReducer = combineReducers({
-    language: languageProviderReducer,
-    router: connectRouter(history),
-    homeContainer: homeContainerReducer
-  });
+    const rootReducer = combineReducers({
+        language: languageProviderReducer,
+        router: connectRouter(history),
+        homeContainer: homeContainerReducer
+    });
 
-  return rootReducer;
+    return rootReducer;
 }

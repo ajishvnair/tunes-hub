@@ -12,22 +12,22 @@ const success = '#28a745';
 const error = '#dc3545';
 
 const colors = {
-  transparent: 'rgba(0,0,0,0)',
-  // Example colors:
-  text,
-  primary,
-  secondary,
-  success,
-  error,
-  theme: {
-    lightMode: {
-      primary,
-      secondary
-    },
-    darkMode: {
-      primary: secondary,
-      secondary: primary
+    transparent: 'rgba(0,0,0,0)',
+    // Example colors:
+    text,
+    primary,
+    secondary,
+    success,
+    error,
+    theme: {
+        lightMode: {
+            primary,
+            secondary
+        },
+        darkMode: {
+            primary: secondary,
+            secondary: primary
+        }
     }
-  }
 };
 module.exports = colors;

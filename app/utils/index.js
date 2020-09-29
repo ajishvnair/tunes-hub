@@ -11,26 +11,26 @@ import routeConstants from './routeConstants';
  * @returns {any}
  */
 export const getCurrentRouteDetails = location => {
-  if (!get(location, 'pathname')) {
+    if (!get(location, 'pathname')) {
+        return null;
+    }
+    const route = find(
+        Object.keys(routeConstants),
+        key => routeConstants[key].route === location.pathname || `${routeConstants[key].route}/` === location.pathname
+    );
+    if (route) {
+        return routeConstants[route];
+    }
     return null;
-  }
-  const route = find(
-    Object.keys(routeConstants),
-    key => routeConstants[key].route === location.pathname || `${routeConstants[key].route}/` === location.pathname
-  );
-  if (route) {
-    return routeConstants[route];
-  }
-  return null;
 };
 export const mapKeysDeep = (obj, fn) =>
-  Array.isArray(obj)
-    ? obj.map(val => mapKeysDeep(val, fn))
-    : typeof obj === 'object'
-    ? Object.keys(obj).reduce((acc, current) => {
-        const key = fn(current);
-        const val = obj[current];
-        acc[key] = val !== null && typeof val === 'object' ? mapKeysDeep(val, fn) : val;
-        return acc;
-      }, {})
-    : obj;
+    Array.isArray(obj)
+        ? obj.map(val => mapKeysDeep(val, fn))
+        : typeof obj === 'object'
+        ? Object.keys(obj).reduce((acc, current) => {
+              const key = fn(current);
+              const val = obj[current];
+              acc[key] = val !== null && typeof val === 'object' ? mapKeysDeep(val, fn) : val;
+              return acc;
+          }, {})
+        : obj;

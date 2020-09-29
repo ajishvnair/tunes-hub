@@ -22,42 +22,42 @@ import Header from '@components/Header';
 import For from '@components/For';
 
 const theme = {
-  fg: colors.primary,
-  bg: colors.secondary
+    fg: colors.primary,
+    bg: colors.secondary
 };
 
 export function App({ location }) {
-  return (
-    <ThemeProvider theme={theme}>
-      <Header />
-      <Layout.Content>
-        <For
-          ParentComponent={props => <Switch {...props} />}
-          of={map(Object.keys(routeConfig))}
-          renderItem={(routeKey, index) => {
-            const Component = routeConfig[routeKey].component;
-            return (
-              <Route
-                exact={routeConfig[routeKey].exact}
-                key={index}
-                path={routeConfig[routeKey].route}
-                render={props => {
-                  const updatedProps = {
-                    ...props,
-                    ...routeConfig[routeKey].props
-                  };
-                  return <Component {...updatedProps} />;
-                }}
-              />
-            );
-          }}
-        />
-        <GlobalStyle />
-      </Layout.Content>
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider theme={theme}>
+            <Header />
+            <Layout.Content>
+                <For
+                    ParentComponent={props => <Switch {...props} />}
+                    of={map(Object.keys(routeConfig))}
+                    renderItem={(routeKey, index) => {
+                        const Component = routeConfig[routeKey].component;
+                        return (
+                            <Route
+                                exact={routeConfig[routeKey].exact}
+                                key={index}
+                                path={routeConfig[routeKey].route}
+                                render={props => {
+                                    const updatedProps = {
+                                        ...props,
+                                        ...routeConfig[routeKey].props
+                                    };
+                                    return <Component {...updatedProps} />;
+                                }}
+                            />
+                        );
+                    }}
+                />
+                <GlobalStyle />
+            </Layout.Content>
+        </ThemeProvider>
+    );
 }
 App.propTypes = {
-  location: PropTypes.object
+    location: PropTypes.object
 };
 export default compose(withRouter)(App);
