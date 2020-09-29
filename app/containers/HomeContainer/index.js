@@ -7,6 +7,8 @@ import { Input } from 'antd';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { useInjectSaga } from 'utils/injectSaga';
+import debounce from 'lodash/debounce';
+import isEmpty from 'lodash/isEmpty';
 // import { getTunes } from '@services/iTunesApi';
 import { selectHomeContainer, selectTunesData, selectTunesError, selectKeyword } from './selectors';
 import { homeContainerCreators } from './reducer';
@@ -25,16 +27,25 @@ export function HomeContainer({
     padding
 }) {
     useInjectSaga({ key: 'homeContainer', saga });
-    const [searchText, setSearchText] = useState('');
-    const [data, setData] = useState([]);
 
-    const handleSearch = () => {
-        dispatchTunes(searchText);
+    const handleSearch = key => {
+        if (!isEmpty(key)) {
+            dispatchTunes(key);
+            // setLoading(true);
+        } else {
+            dispatchClearTunes();
+        }
     };
+
+    const debouncedHandleSerach = debounce(handleSearch, 200);
     return (
         <div>
-            <Search value={searchText} onChange={e => setSearchText(e.target.value)} onSearch={handleSearch} />
-            {JSON.stringify(data)}
+            <Search
+                value={keyword}
+                onChange={e => debouncedHandleSerach(e.target.value)}
+                onSearch={searchText => debouncedHandleSerach(searchText)}
+            />
+            {JSON.stringify(tunesData)}
         </div>
     );
 }
