@@ -1,19 +1,19 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { getRepos } from '@services/repoApi';
+import { getTunes } from '@services/iTunesApi';
 import { homeContainerTypes, homeContainerCreators } from './reducer';
 
-const { REQUEST_GET_GITHUB_REPOS } = homeContainerTypes;
-const { successGetGithubRepos, failureGetGithubRepos } = homeContainerCreators;
+const { REQUEST_GET_TUNES } = homeContainerTypes;
+const { successGetTunes, failureGetTunes } = homeContainerCreators;
 export function* getGithubRepos(action) {
-    const response = yield call(getRepos, action.repoName);
+    const response = yield call(getTunes, action.keyword);
     const { data, ok } = response;
     if (ok) {
-        yield put(successGetGithubRepos(data));
+        yield put(successGetTunes(data));
     } else {
-        yield put(failureGetGithubRepos(data));
+        yield put(failureGetTunes(data));
     }
 }
 // Individual exports for testing
 export default function* homeContainerSaga() {
-    yield takeLatest(REQUEST_GET_GITHUB_REPOS, getGithubRepos);
+    yield takeLatest(REQUEST_GET_TUNES, getGithubRepos);
 }
