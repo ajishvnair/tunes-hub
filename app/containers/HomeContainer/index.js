@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import React, { memo, useRef } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 import { Input, Card, Col, Row } from 'antd';
-import { PlayCircleOutlined } from '@ant-design/icons';
+import { PlayCircleOutlined, PauseCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -18,6 +18,8 @@ import T from '@components/T';
 import { selectHomeContainer, selectTunesData, selectTunesError, selectKeyword } from './selectors';
 import { homeContainerCreators } from './reducer';
 import saga from './saga';
+import Mp3player from '@components/mp3';
+import Mp3Player from '@app/components/mp3/index';
 
 const { Search } = Input;
 
@@ -32,7 +34,7 @@ const Container = styled.div`
 
 const ListContainer = styled(Row)`
     && {
-        padding: 20px;
+        margin: 10px;
     }
 `;
 
@@ -79,7 +81,8 @@ export function HomeContainer({
 }) {
     useInjectSaga({ key: 'homeContainer', saga });
 
-    const audioRef = useRef(null);
+    const [selectedTune, setSelectedTune] = useState(null);
+    const [mediaPlayerVisible, setMediaPlayerVisibility] = useState(false);
 
     const handleSearch = value => {
         if (!isEmpty(value)) {
@@ -89,12 +92,9 @@ export function HomeContainer({
         }
     };
 
-    const playMusic = url => {
-        if (audioRef.current) {
-            audioRef.current.pause();
-        }
-        audioRef.current = new Audio(url);
-        audioRef.current.play();
+    const playMusic = (url, index) => {
+        setSelectedTune({ url, index });
+        setMediaPlayerVisibility(true);
     };
 
     const debouncedHandleSearch = debounce(handleSearch, 200);
@@ -108,7 +108,14 @@ export function HomeContainer({
                     <Tune key={index} span={5}>
                         <T text={!isEmpty(tune.trackName) ? tune.trackName : tune.collectionName} />
                         <IconContainer>
-                            <PlayCircleOutlined style={{ fontSize: 35 }} onClick={() => playMusic(tune.previewUrl)} />
+                            {selectedTune?.index !== index ? (
+                                <PlayCircleOutlined
+                                    style={{ fontSize: 35 }}
+                                    onClick={() => playMusic(tune.previewUrl, index)}
+                                />
+                            ) : (
+                                <PauseCircleOutlined style={{ fontSize: 35 }} onClick={() => playMusic(null, null)} />
+                            )}
                         </IconContainer>
                     </Tune>
                 ))}
@@ -116,17 +123,26 @@ export function HomeContainer({
         );
     };
     return (
-        <Container>
-            <SearchCard maxwidth={maxwidth}>
-                <Search
-                    placeholder={intl.formatMessage({ id: 'search_artist' })}
-                    defaultValue={keyword}
-                    onChange={e => debouncedHandleSearch(e.target.value)}
-                    onSearch={value => debouncedHandleSearch(value)}
+        <>
+            <Container>
+                <SearchCard maxwidth={maxwidth}>
+                    <Search
+                        placeholder={intl.formatMessage({ id: 'search_artist' })}
+                        defaultValue={keyword}
+                        onChange={e => debouncedHandleSearch(e.target.value)}
+                        onSearch={value => debouncedHandleSearch(value)}
+                    />
+                </SearchCard>
+                {renderTunesList()}
+            </Container>
+            {mediaPlayerVisible && (
+                <Mp3Player
+                    visible={mediaPlayerVisible}
+                    setVisible={setMediaPlayerVisibility}
+                    currentElement={selectedTune}
                 />
-            </SearchCard>
-            {renderTunesList()}
-        </Container>
+            )}
+        </>
     );
 }
 
