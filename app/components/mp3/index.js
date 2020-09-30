@@ -8,6 +8,8 @@ const ModalContainer = styled(Modal)`
         width: fit-content !important;
         .ant-modal-content {
             height: 400px;
+            border-radius: 20px;
+            background: #e0ffc7 url(https://media.giphy.com/media/pViWHLiQBA1q0/giphy.gif) no-repeat center center;
         }
     }
 `;
