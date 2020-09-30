@@ -9,7 +9,7 @@ const ModalContainer = styled(Modal)`
         .ant-modal-content {
             height: 400px;
             border-radius: 20px;
-            background: #e0ffc7 url(https://media.giphy.com/media/pViWHLiQBA1q0/giphy.gif) no-repeat center center;
+            background: black url(https://media.giphy.com/media/pViWHLiQBA1q0/giphy.gif) no-repeat center center;
         }
     }
 `;

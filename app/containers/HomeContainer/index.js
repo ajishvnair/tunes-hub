@@ -43,6 +43,7 @@ const IconContainer = styled.div`
         position: absolute;
         right: 7px;
         bottom: 7px;
+        cursor: pointer;
     }
 `;
 
@@ -107,11 +108,17 @@ export function HomeContainer({
     const renderTunesList = () => {
         const tunesList = get(tunesData, 'results', []);
         const totalCount = get(tunesData, 'resultCount', 0);
-        return (
+        return totalCount ? (
             <ListContainer justify="space-between">
                 {tunesList.map((tune, index) => (
                     <Tune key={index} span={5}>
-                        <T text={!isEmpty(tune.trackName) ? tune.trackName : tune.collectionName} />
+                        <T
+                            text={
+                                !isEmpty(tune.trackName)
+                                    ? tune.trackName.slice(0, 20)
+                                    : tune.collectionName.slice(0, 20)
+                            }
+                        />
                         <IconContainer>
                             {selectedTune?.index !== index ? (
                                 <PlayCircleOutlined
@@ -125,6 +132,8 @@ export function HomeContainer({
                     </Tune>
                 ))}
             </ListContainer>
+        ) : (
+            <div>{keyword}</div>
         );
     };
     return (
