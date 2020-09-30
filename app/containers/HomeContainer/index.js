@@ -68,17 +68,25 @@ export function HomeContainer({
     padding
 }) {
     useInjectSaga({ key: 'homeContainer', saga });
+    const [searchText, setSearchText] = useState('');
 
-    const handleSearch = key => {
-        if (!isEmpty(key)) {
-            dispatchTunes(key);
+    const handleSearch = () => {
+        if (!isEmpty(searchText)) {
+            dispatchTunes(searchText);
             // setLoading(true);
         } else {
             dispatchClearTunes();
         }
     };
 
-    const debouncedHandleSerach = debounce(handleSearch, 200);
+    const debouncedHandleSearch = value => {
+        setSearchText(value);
+        const search = debounce(() => {
+            handleSearch();
+        }, 800);
+
+        search();
+    };
 
     const renderTunesList = () => {
         const tunesList = get(tunesData, 'results', []);
@@ -98,9 +106,9 @@ export function HomeContainer({
             <SearchCard maxwidth={maxwidth}>
                 <Search
                     placeholder={intl.formatMessage({ id: 'search_artist' })}
-                    value={keyword}
-                    onChange={e => debouncedHandleSerach(e.target.value)}
-                    onSearch={searchText => debouncedHandleSerach(searchText)}
+                    value={searchText}
+                    onChange={e => debouncedHandleSearch(e.target.value)}
+                    onSearch={handleSearch}
                 />
             </SearchCard>
             {renderTunesList()}
