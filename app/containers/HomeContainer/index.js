@@ -3,11 +3,13 @@ import React, { useState, memo } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
-import { Input, Card } from 'antd';
+import { Input, Card, Col, Row } from 'antd';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 import { createStructuredSelector } from 'reselect';
 import { useInjectSaga } from 'utils/injectSaga';
+import { colors } from '@themes';
 import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import T from '@components/T';
@@ -26,7 +28,26 @@ const Container = styled.div`
         flex-direction: column;
     }
 `;
-const CustomCard = styled(Card)`
+
+const ListContainer = styled(Row)`
+    && {
+        padding: 20px;
+    }
+`;
+
+const Tune = styled(Col)`
+    && {
+        margin: 5px;
+        padding: 10px;
+        border-radius: 5px;
+        color: white;
+        background: ${colors.primary};
+        background: -webkit-linear-gradient(to right, ${colors.primary}, ${colors.secondary});
+        background: linear-gradient(to right, ${colors.primary}, ${colors.secondary});
+    }
+`;
+
+const SearchCard = styled(Card)`
     && {
         margin-top: -10px;
         max-width: ${props => props.maxwidth};
@@ -58,17 +79,31 @@ export function HomeContainer({
     };
 
     const debouncedHandleSerach = debounce(handleSearch, 200);
+
+    const renderTunesList = () => {
+        const tunesList = get(tunesData, 'results', []);
+        const totalCount = get(tunesData, 'resultCount', 0);
+        return (
+            <ListContainer justify="space-between">
+                {tunesList.map((tune, index) => (
+                    <Tune key={index}>
+                        <T text={tune.trackName} />
+                    </Tune>
+                ))}
+            </ListContainer>
+        );
+    };
     return (
         <Container>
-            <CustomCard maxwidth={maxwidth}>
+            <SearchCard maxwidth={maxwidth}>
                 <Search
                     placeholder={intl.formatMessage({ id: 'search_artist' })}
                     value={keyword}
                     onChange={e => debouncedHandleSerach(e.target.value)}
                     onSearch={searchText => debouncedHandleSerach(searchText)}
                 />
-            </CustomCard>
-            {JSON.stringify(tunesData)}
+            </SearchCard>
+            {renderTunesList()}
         </Container>
     );
 }
