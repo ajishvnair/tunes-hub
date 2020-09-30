@@ -25,7 +25,7 @@ export const homeContainerReducer = (state = initialState, action) =>
             case homeContainerTypes.CLEAR_TUNES:
                 return initialState;
             case homeContainerTypes.SUCCESS_GET_TUNES:
-                draft.tunesData = action.data;
+                draft.tunesData = action.data.results;
                 break;
             case homeContainerTypes.FAILURE_GET_GITHUB_REPOS:
                 draft.tunesError = get(action.error, 'message', 'something_went_wrong');
