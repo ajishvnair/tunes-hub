@@ -92,6 +92,11 @@ export function HomeContainer({
         }
     };
 
+    const resetPlayback = () => {
+        setMediaPlayerVisibility(false);
+        setSelectedTune(null);
+    };
+
     const playMusic = (url, index) => {
         setSelectedTune({ url, index });
         setMediaPlayerVisibility(true);
@@ -114,7 +119,7 @@ export function HomeContainer({
                                     onClick={() => playMusic(tune.previewUrl, index)}
                                 />
                             ) : (
-                                <PauseCircleOutlined style={{ fontSize: 35 }} onClick={() => playMusic(null, null)} />
+                                <PauseCircleOutlined style={{ fontSize: 35 }} onClick={() => playMusic(null)} />
                             )}
                         </IconContainer>
                     </Tune>
@@ -136,11 +141,7 @@ export function HomeContainer({
                 {renderTunesList()}
             </Container>
             {mediaPlayerVisible && (
-                <Mp3Player
-                    visible={mediaPlayerVisible}
-                    setVisible={setMediaPlayerVisibility}
-                    currentElement={selectedTune}
-                />
+                <Mp3Player visible={mediaPlayerVisible} setVisible={resetPlayback} currentElement={selectedTune} />
             )}
         </>
     );
