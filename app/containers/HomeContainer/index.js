@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { memo, useRef, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
@@ -18,8 +18,10 @@ import T from '@components/T';
 import { selectHomeContainer, selectTunesData, selectTunesError, selectKeyword } from './selectors';
 import { homeContainerCreators } from './reducer';
 import saga from './saga';
-import Mp3player from '@components/mp3';
 import Mp3Player from '@app/components/mp3/index';
+import EmptyState from '@app/components/EmptyState/index';
+import ErrorState from '@app/components/ErrorState/index';
+import LoadingState from '@app/components/LoadingState/index';
 
 const { Search } = Input;
 
@@ -84,9 +86,17 @@ export function HomeContainer({
 
     const [selectedTune, setSelectedTune] = useState(null);
     const [mediaPlayerVisible, setMediaPlayerVisibility] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (loading) {
+            setLoading(false);
+        }
+    }, [tunesData]);
 
     const handleSearch = value => {
         if (!isEmpty(value)) {
+            setLoading(true);
             dispatchTunes(value);
         } else {
             dispatchClearTunes();
@@ -104,7 +114,11 @@ export function HomeContainer({
     };
 
     const debouncedHandleSearch = debounce(handleSearch, 200);
-
+    /**
+     * if total count greater than zero render tunes list
+     * if it is zero && keyword is empty -Empty state
+     * if it is zero && keyword present - Error state
+     */
     const renderTunesList = () => {
         const tunesList = get(tunesData, 'results', []);
         const totalCount = get(tunesData, 'resultCount', 0);
@@ -132,8 +146,10 @@ export function HomeContainer({
                     </Tune>
                 ))}
             </ListContainer>
+        ) : isEmpty(keyword) ? (
+            <EmptyState />
         ) : (
-            <div>{keyword}</div>
+            <ErrorState />
         );
     };
     return (
@@ -147,7 +163,7 @@ export function HomeContainer({
                         onSearch={value => debouncedHandleSearch(value)}
                     />
                 </SearchCard>
-                {renderTunesList()}
+                {loading ? <LoadingState /> : renderTunesList()}
             </Container>
             {mediaPlayerVisible && (
                 <Mp3Player visible={mediaPlayerVisible} setVisible={resetPlayback} currentElement={selectedTune} />
