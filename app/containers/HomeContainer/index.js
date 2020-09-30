@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
-import React, { useState, memo } from 'react';
+import React, { memo, useRef } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 import { Input, Card, Col, Row } from 'antd';
+import { PlayCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -35,12 +36,21 @@ const ListContainer = styled(Row)`
     }
 `;
 
+const IconContainer = styled.div`
+    && {
+        position: absolute;
+        right: 7px;
+        bottom: 7px;
+    }
+`;
+
 const Tune = styled(Col)`
     && {
         margin: 5px;
         padding: 10px;
         border-radius: 5px;
         color: white;
+        height: 100px;
         background: ${colors.primary};
         background: -webkit-linear-gradient(to right, ${colors.primary}, ${colors.secondary});
         background: linear-gradient(to right, ${colors.primary}, ${colors.secondary});
@@ -68,25 +78,26 @@ export function HomeContainer({
     padding
 }) {
     useInjectSaga({ key: 'homeContainer', saga });
-    const [searchText, setSearchText] = useState('');
 
-    const handleSearch = () => {
-        if (!isEmpty(searchText)) {
-            dispatchTunes(searchText);
-            // setLoading(true);
+    const audioRef = useRef(null);
+
+    const handleSearch = value => {
+        if (!isEmpty(value)) {
+            dispatchTunes(value);
         } else {
             dispatchClearTunes();
         }
     };
 
-    const debouncedHandleSearch = value => {
-        setSearchText(value);
-        const search = debounce(() => {
-            handleSearch();
-        }, 800);
-
-        search();
+    const playMusic = url => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+        }
+        audioRef.current = new Audio(url);
+        audioRef.current.play();
     };
+
+    const debouncedHandleSearch = debounce(handleSearch, 200);
 
     const renderTunesList = () => {
         const tunesList = get(tunesData, 'results', []);
@@ -94,8 +105,11 @@ export function HomeContainer({
         return (
             <ListContainer justify="space-between">
                 {tunesList.map((tune, index) => (
-                    <Tune key={index}>
-                        <T text={tune.trackName} />
+                    <Tune key={index} span={5}>
+                        <T text={!isEmpty(tune.trackName) ? tune.trackName : tune.collectionName} />
+                        <IconContainer>
+                            <PlayCircleOutlined style={{ fontSize: 35 }} onClick={() => playMusic(tune.previewUrl)} />
+                        </IconContainer>
                     </Tune>
                 ))}
             </ListContainer>
@@ -106,9 +120,9 @@ export function HomeContainer({
             <SearchCard maxwidth={maxwidth}>
                 <Search
                     placeholder={intl.formatMessage({ id: 'search_artist' })}
-                    value={searchText}
+                    defaultValue={keyword}
                     onChange={e => debouncedHandleSearch(e.target.value)}
-                    onSearch={handleSearch}
+                    onSearch={value => debouncedHandleSearch(value)}
                 />
             </SearchCard>
             {renderTunesList()}
