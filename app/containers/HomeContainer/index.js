@@ -199,7 +199,8 @@ HomeContainer.propTypes = {
 HomeContainer.defaultProps = {
     maxwidth: 200,
     width: 800,
-    padding: 20
+    padding: 20,
+    dispatchClearTunes: () => {}
 };
 
 const mapStateToProps = createStructuredSelector({

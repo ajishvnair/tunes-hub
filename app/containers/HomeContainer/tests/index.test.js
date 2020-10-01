@@ -20,7 +20,7 @@ describe('<HomeContainer /> tests', () => {
         expect(baseElement).toMatchSnapshot();
     });
 
-    it('should call dispatch clear tunes on empty change', async () => {
+    it('should call dispatch get tunes and clear tunes on empty change', async () => {
         const getTunesSpy = jest.fn();
         const clearTunesSpy = jest.fn();
         const { getByTestId } = renderProvider(
@@ -31,6 +31,7 @@ describe('<HomeContainer /> tests', () => {
         });
         await timeout(500);
         expect(getTunesSpy).toBeCalled();
+
         fireEvent.change(getByTestId('search-bar'), {
             target: { value: '' }
         });
