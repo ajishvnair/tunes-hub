@@ -59,6 +59,7 @@ const Tune = styled(Col)`
         background: ${colors.primary};
         background: -webkit-linear-gradient(to right, ${colors.primary}, ${colors.secondary});
         background: linear-gradient(to right, ${colors.primary}, ${colors.secondary});
+        min-width: 200px;
     }
 `;
 
@@ -168,6 +169,7 @@ export function HomeContainer({
                     />
                 </SearchCard>
                 {loading ? <LoadingState /> : renderTunesList()}
+                {/* <LoadingState /> */}
             </Container>
             {mediaPlayerVisible && (
                 <Mp3Player visible={mediaPlayerVisible} setVisible={resetPlayback} currentElement={selectedTune} />
