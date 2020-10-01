@@ -1,40 +1,40 @@
-import { selectHomeContainer, selectRepoName, selectReposData, selectReposError } from '../selectors';
+import { selectHomeContainer, selectKeyword, selectTunesData, selectTunesError } from '../selectors';
 
 describe('HomeContainer selector tests', () => {
-  let mockedState;
-  let repoName;
-  let reposData;
-  let reposError;
+    let mockedState;
+    let keyword;
+    let tunesData;
+    let tunesError;
 
-  beforeEach(() => {
-    repoName = 'mac';
-    reposData = { totalCount: 1, items: [{ repoName }] };
-    reposError = 'There was some error while fetching the repository details';
+    beforeEach(() => {
+        keyword = 'malayalam';
+        tunesData = { resultCount: 1, results: [{ trackName: keyword }] };
+        tunesError = 'There was some error while fetching the tunes';
 
-    mockedState = {
-      homeContainer: {
-        repoName,
-        reposData,
-        reposError
-      }
-    };
-  });
-  it('should select the homeContainer state', () => {
-    const homeContainerSelector = selectHomeContainer();
-    expect(homeContainerSelector(mockedState)).toEqual(mockedState.homeContainer);
-  });
-  it('should select the repoName', () => {
-    const repoSelector = selectRepoName();
-    expect(repoSelector(mockedState)).toEqual(repoName);
-  });
+        mockedState = {
+            homeContainer: {
+                keyword,
+                tunesData,
+                tunesError
+            }
+        };
+    });
+    it('should select the homeContainer state', () => {
+        const homeContainerSelector = selectHomeContainer();
+        expect(homeContainerSelector(mockedState)).toEqual(mockedState.homeContainer);
+    });
+    it('should select the keyword', () => {
+        const keywordSelector = selectKeyword();
+        expect(keywordSelector(mockedState)).toEqual(keyword);
+    });
 
-  it('should select reposData', () => {
-    const reposDataSelector = selectReposData();
-    expect(reposDataSelector(mockedState)).toEqual(reposData);
-  });
+    it('should select tunesData', () => {
+        const tunesDataSelector = selectTunesData();
+        expect(tunesDataSelector(mockedState)).toEqual(tunesData);
+    });
 
-  it('should select the reposError', () => {
-    const reposErrorSelector = selectReposError();
-    expect(reposErrorSelector(mockedState)).toEqual(reposError);
-  });
+    it('should select the tunesError', () => {
+        const tunesErrorSelector = selectTunesError();
+        expect(tunesErrorSelector(mockedState)).toEqual(tunesError);
+    });
 });
