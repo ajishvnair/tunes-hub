@@ -3,7 +3,6 @@
  * Tests for HomeContainer
  *
  */
-
 import React from 'react';
 import { timeout, renderProvider } from '@utils/testUtils';
 import { fireEvent } from '@testing-library/dom';
