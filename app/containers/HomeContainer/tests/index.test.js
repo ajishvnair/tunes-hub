@@ -10,40 +10,40 @@ import { fireEvent } from '@testing-library/dom';
 import { HomeContainerTest as HomeContainer } from '../index';
 
 describe('<HomeContainer /> tests', () => {
-  let submitSpy;
+    let submitSpy;
 
-  beforeEach(() => {
-    submitSpy = jest.fn();
-  });
-  it('should render and match the snapshot', () => {
-    const { baseElement } = renderProvider(<HomeContainer dispatchGithubRepos={submitSpy} />);
-    expect(baseElement).toMatchSnapshot();
-  });
+    beforeEach(() => {
+        submitSpy = jest.fn();
+    });
+    it('should render and match the snapshot', () => {
+        const { baseElement } = renderProvider(<HomeContainer dispatchTunes={submitSpy} />);
+        expect(baseElement).toMatchSnapshot();
+    });
 
-  it('should call dispatchClearGithubRepos on empty change', async () => {
-    const getGithubReposSpy = jest.fn();
-    const clearGithubReposSpy = jest.fn();
-    const { getByTestId } = renderProvider(
-      <HomeContainer dispatchClearGithubRepos={clearGithubReposSpy} dispatchGithubRepos={getGithubReposSpy} />
-    );
-    fireEvent.change(getByTestId('search-bar'), {
-      target: { value: 'a' }
+    it('should call dispatch clear tunes on empty change', async () => {
+        const getTunesSpy = jest.fn();
+        const clearTunesSpy = jest.fn();
+        const { getByTestId } = renderProvider(
+            <HomeContainer dispatchClearTunes={clearTunesSpy} dispatchTunes={getTunesSpy} />
+        );
+        fireEvent.change(getByTestId('search-bar'), {
+            target: { value: 'a' }
+        });
+        await timeout(500);
+        expect(getTunesSpy).toBeCalled();
+        fireEvent.change(getByTestId('search-bar'), {
+            target: { value: '' }
+        });
+        await timeout(500);
+        expect(clearTunesSpy).toBeCalled();
     });
-    await timeout(500);
-    expect(getGithubReposSpy).toBeCalled();
-    fireEvent.change(getByTestId('search-bar'), {
-      target: { value: '' }
-    });
-    await timeout(500);
-    expect(clearGithubReposSpy).toBeCalled();
-  });
 
-  it('should call dispatchGithubRepos on change', async () => {
-    const { getByTestId } = renderProvider(<HomeContainer dispatchGithubRepos={submitSpy} />);
-    fireEvent.change(getByTestId('search-bar'), {
-      target: { value: 'some repo' }
+    it('should call dispatchTunes on change', async () => {
+        const { getByTestId } = renderProvider(<HomeContainer dispatchTunes={submitSpy} />);
+        fireEvent.change(getByTestId('search-bar'), {
+            target: { value: 'some tunes' }
+        });
+        await timeout(500);
+        expect(submitSpy).toBeCalled();
     });
-    await timeout(500);
-    expect(submitSpy).toBeCalled();
-  });
 });

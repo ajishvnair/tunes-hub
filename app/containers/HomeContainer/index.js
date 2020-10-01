@@ -162,6 +162,7 @@ export function HomeContainer({
             <Container>
                 <SearchCard maxwidth={maxwidth}>
                     <Search
+                        data-testid="search-bar"
                         placeholder={intl.formatMessage({ id: 'search_artist' })}
                         defaultValue={keyword}
                         onChange={e => debouncedHandleSearch(e.target.value)}
