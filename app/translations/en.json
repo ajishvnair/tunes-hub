@@ -1,4 +1,4 @@
 {
-  "search_artist": "Search by your favourite Artist"
-  
+  "search_artist": "Search by your favourite Artist",
+  "error_message":"!Oops there is no tunes for {keyword} "
 }

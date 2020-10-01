@@ -94,6 +94,10 @@ export function HomeContainer({
         }
     }, [tunesData]);
 
+    useEffect(() => {
+        dispatchClearTunes();
+    }, []);
+
     const handleSearch = value => {
         if (!isEmpty(value)) {
             setLoading(true);
@@ -147,9 +151,9 @@ export function HomeContainer({
                 ))}
             </ListContainer>
         ) : isEmpty(keyword) ? (
-            <EmptyState />
+            <EmptyState formatMessage={intl.formatMessage} />
         ) : (
-            <ErrorState />
+            <ErrorState formatMessage={intl.formatMessage} keyword={keyword} />
         );
     };
     return (
