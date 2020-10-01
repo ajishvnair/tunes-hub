@@ -16,7 +16,7 @@ describe('<HomeContainer /> tests', () => {
         submitSpy = jest.fn();
     });
     it('should render and match the snapshot', () => {
-        const { baseElement } = renderProvider(<HomeContainer dispatchTunes={submitSpy} />);
+        const { baseElement } = renderProvider(<HomeContainer dispatchGetTunes={submitSpy} />);
         expect(baseElement).toMatchSnapshot();
     });
 
@@ -24,7 +24,7 @@ describe('<HomeContainer /> tests', () => {
         const getTunesSpy = jest.fn();
         const clearTunesSpy = jest.fn();
         const { getByTestId } = renderProvider(
-            <HomeContainer dispatchClearTunes={clearTunesSpy} dispatchTunes={getTunesSpy} />
+            <HomeContainer dispatchClearTunes={clearTunesSpy} dispatchGetTunes={getTunesSpy} />
         );
         fireEvent.change(getByTestId('search-bar'), {
             target: { value: 'a' }
@@ -40,7 +40,7 @@ describe('<HomeContainer /> tests', () => {
     });
 
     it('should call dispatchTunes on change', async () => {
-        const { getByTestId } = renderProvider(<HomeContainer dispatchTunes={submitSpy} />);
+        const { getByTestId } = renderProvider(<HomeContainer dispatchGetTunes={submitSpy} />);
         fireEvent.change(getByTestId('search-bar'), {
             target: { value: 'some tunes' }
         });

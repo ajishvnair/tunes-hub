@@ -74,7 +74,7 @@ const SearchCard = styled(Card)`
 `;
 
 export function HomeContainer({
-    dispatchTunes,
+    dispatchGetTunes,
     dispatchClearTunes,
     intl,
     tunesData = {},
@@ -102,7 +102,7 @@ export function HomeContainer({
     const handleSearch = value => {
         if (!isEmpty(value)) {
             setLoading(true);
-            dispatchTunes(value);
+            dispatchGetTunes(value);
         } else {
             dispatchClearTunes();
         }
@@ -180,7 +180,7 @@ export function HomeContainer({
 }
 
 HomeContainer.propTypes = {
-    dispatchTunes: PropTypes.func,
+    dispatchGetTunes: PropTypes.func,
     dispatchClearTunes: PropTypes.func,
     intl: PropTypes.object,
     tunesData: PropTypes.shape({
@@ -213,7 +213,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
     const { requestGetTunes, clearTunes } = homeContainerCreators;
     return {
-        dispatchTunes: repoName => dispatch(requestGetTunes(repoName)),
+        dispatchGetTunes: repoName => dispatch(requestGetTunes(repoName)),
         dispatchClearTunes: () => dispatch(clearTunes())
     };
 }
