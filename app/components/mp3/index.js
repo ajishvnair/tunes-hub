@@ -23,14 +23,14 @@ const Audio = styled.audio`
 export function Mp3Player({ visible, setVisible, currentElement }) {
     return (
         <ModalContainer visible={visible} onCancel={() => setVisible(false)} footer={null}>
-            <Audio controls autoPlay="true" src={currentElement?.url}></Audio>
+            <Audio controls autoPlay={true} src={currentElement?.url}></Audio>
         </ModalContainer>
     );
 }
 Mp3Player.propTypes = {
     visible: PropTypes.bool,
     setVisible: PropTypes.func,
-    currentElement: PropTypes.currentElement
+    currentElement: PropTypes.object
 };
 
 export default Mp3Player;
