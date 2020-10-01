@@ -4,7 +4,7 @@ import { homeContainerTypes, homeContainerCreators } from './reducer';
 
 const { REQUEST_GET_TUNES } = homeContainerTypes;
 const { successGetTunes, failureGetTunes } = homeContainerCreators;
-export function* getGithubRepos(action) {
+export function* getTunesFromApi(action) {
     const response = yield call(getTunes, action.keyword);
     const { data, ok } = response;
     if (ok) {
@@ -15,5 +15,5 @@ export function* getGithubRepos(action) {
 }
 // Individual exports for testing
 export default function* homeContainerSaga() {
-    yield takeLatest(REQUEST_GET_TUNES, getGithubRepos);
+    yield takeLatest(REQUEST_GET_TUNES, getTunesFromApi);
 }
