@@ -183,11 +183,7 @@ HomeContainer.propTypes = {
     dispatchGetTunes: PropTypes.func,
     dispatchClearTunes: PropTypes.func,
     intl: PropTypes.object,
-    tunesData: PropTypes.shape({
-        totalCount: PropTypes.number,
-        incompleteResults: PropTypes.bool,
-        items: PropTypes.array
-    }),
+    tunesData: PropTypes.object,
     tunesError: PropTypes.object,
     keyword: PropTypes.string,
     history: PropTypes.object,

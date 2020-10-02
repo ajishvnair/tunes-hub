@@ -32,7 +32,7 @@ const Title = styled(T)`
 export function Header(props) {
     return (
         <StyledHeader {...props} data-testid="header">
-            <Title type="heading" id="Tunes Hub" />
+            <Title type="heading" id="tunes_hub" />
         </StyledHeader>
     );
 }
